@@ -2,21 +2,55 @@
 
 ![banner](image.png)
 
-
 ## OpenLoop Network is a decentralized wireless network built to enhance Internet service delivery, making it more efficient, accessible, and rewarding for everyone. 🤩
 
+- Website [https://openloop.so/](https://openloop.so/)
+- Twitter [@openloop_so](https://x.com/openloop_so)
+- Telegram [@openloop_updates](https://t.me/openloop_updates)
+- discord [https://discord.com/invite/75qBRaUczN](https://discord.com/invite/75qBRaUczN)
 
-supported by the [@IPNfdn](https://x.com/IPNfdn) ensuring growth is ethical and focused on decentralizing power for everyone. 🌍
+## **Features**
 
+- **Register Accounts**
+- **Load Existing Tokens**: Load pre-existing tokens if you already have account.
+- **Auto Ping**
+- **Auto Reff**
+- **Support Multy Accounts**
+- **Support Proxy**
 
-🛜 Bandwidth Sharing
-Property owners and residents can securely contribute unused bandwidth to the network and earn rewards in return.
+## **Requirements**
 
-⛓️ Decentralized Framework
-OpenLoop uses proof of backhaul, location, and frequency to create a secure and trustless ecosystem for its participants.
+- **Node.js**: Ensure you have Node.js installed.
+- **npm**: Ensure you have npm installed.
 
-🦾 AI-Driven Infrastructure
-Supporting data needs for advanced AI applications, OpenLoop’s robust architecture fosters innovation on a global scale. 🌐
+## **make sure you have same number account and proxy**
 
-🔐 Why OpenLoop?
-OpenLoop transforms idle bandwidth into a valuable resource 🔋, enabling individuals and businesses to benefit while ensuring privacy, security, and transparency. 🧾
+if you already have account you can put `access-token` to `token.txt`,
+
+put your proxy in file `proxy.txt` format `http://username:pass@ip:port`
+
+![intro](image-1.png)
+
+## Setup
+
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/Zlkcyber/openloop.git
+   cd openloop
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Setup to create accounts and get Tokens:
+   ```bash
+   npm run setup
+   ```
+4. Run The Script:
+   ```bash
+   npm run start
+   ```
+
+## ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+
+This project is licensed under the [MIT License](LICENSE).
