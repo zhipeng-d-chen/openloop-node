@@ -50,6 +50,10 @@ put your proxy in file `proxy.txt` format `http://username:pass@ip:port`
    ```bash
    npm run start
    ```
+5. Auto reff using temp mail
+   ```bash
+   npm run autoreff
+   ```
 
 ## ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
