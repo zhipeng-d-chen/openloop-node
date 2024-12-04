@@ -18,36 +18,48 @@ const getTokens = () => {
 };
 
 const shareBandwidth = async (token, proxy) => {
-    try {
-        const quality = getRandomQuality(); 
-        const proxyAgent = new HttpsProxyAgent(proxy);
+    const quality = getRandomQuality(); 
+    const proxyAgent = new HttpsProxyAgent(proxy);
+    const maxRetries = 5; 
+    let attempt = 0;
 
-        const response = await fetch('https://api.openloop.so/bandwidth/share', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ quality }),
-            agent: proxyAgent,  
-        });
+    while (attempt < maxRetries) {
+        try {
+            const response = await fetch('https://api.openloop.so/bandwidth/share', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ quality }),
+                agent: proxyAgent,
+            });
 
-        if (!response.ok) {
-            throw new Error(`Failed to share bandwidth! Status: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-
-        const logBandwidthShareResponse = (response) => {
-            if (response && response.data && response.data.balances) {
-                const balance = response.data.balances.POINT;
-                logger(`Bandwidth shared Message: ${chalk.yellow(response.message)} | Score: ${chalk.yellow(quality)} | Total Earnings: ${chalk.yellow(balance)}`);
+            if (!response.ok) {
+                throw new Error(`Failed to share bandwidth! Status: ${response.statusText}`);
             }
-        };
 
-        logBandwidthShareResponse(data);
-    } catch (error) {
-        logger('Error sharing bandwidth:', 'error', error.message);
+            const data = await response.json();
+
+            const logBandwidthShareResponse = (response) => {
+                if (response && response.data && response.data.balances) {
+                    const balance = response.data.balances.POINT;
+                    logger(
+                        `Bandwidth shared Message: ${chalk.yellow(response.message)} | Score: ${chalk.yellow(quality)} | Total Earnings: ${chalk.yellow(balance)}`
+                    );
+                }
+            };
+
+            logBandwidthShareResponse(data);
+            return; 
+        } catch (error) {
+            attempt++;
+            if (attempt >= maxRetries) {
+                logger(`Max retries reached. Skipping.`, 'error');
+            } else {
+                await new Promise((resolve) => setTimeout(resolve, 1000)); 
+            }
+        }
     }
 };
 
