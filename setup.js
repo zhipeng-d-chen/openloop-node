@@ -58,19 +58,22 @@ const registerUser = async () => {
     const maxRetries = 5;
     let attempt = 0;
 
+    const email = await askQuestion('Enter your email: ');
+    const password = await askQuestion('Enter your password: ');
+
+    if (!email || !password) {
+        logger('Both email and password are required.', 'error');
+        return;
+    }
+
     while (attempt < maxRetries) {
         try {
-            const email = await askQuestion('Enter your email: ');
-            const name = email;
-            const password = await askQuestion('Enter your password: ');
             const inviteCode = 'ol41fe134b';
+            const registrationPayload = { name: email, username: email, password, inviteCode };
 
-            const registrationPayload = { name, username: email, password, inviteCode };
             const registerResponse = await fetch('https://api.openloop.so/users/register', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(registrationPayload),
             });
 
@@ -91,19 +94,19 @@ const registerUser = async () => {
             return;
         } catch (error) {
             attempt++;
-            logger(`Registration attempt ${attempt} failed. Error: ${error.message}`, 'error');
+            logger(`Attempt ${attempt} failed. Error: ${error.message}`, 'error');
 
             if (attempt >= maxRetries) {
-                logger(`Max retries reached for registration. Aborting...`, 'error');
+                logger('Max retries reached for registration/login. Aborting...', 'error');
                 return; 
             }
 
             await new Promise((resolve) => setTimeout(resolve, 1000)); 
-        } finally {
-            rl.close();
         }
     }
 };
+
+
 
 
 registerUser();
